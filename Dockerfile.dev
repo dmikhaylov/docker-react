@@ -1,0 +1,17 @@
+FROM node:alpine
+
+WORKDIR '/app'
+
+COPY package.json .
+RUN npm config set unsafe-perm true
+RUN mkdir -p /app/node_modules
+RUN chown node:node /app/node_modules
+RUN mkdir -p /app/node_modules/.cache
+RUN npm install --force
+RUN chmod -R 777  /app/node_modules
+
+COPY . .
+
+USER node 
+
+CMD ["npm", "run", "start"]
